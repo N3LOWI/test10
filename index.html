@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Arrays</title>
+    <style>
+        table {
+            width: 50%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generated Player Arrays</h1>
+    <div id="results"></div>
+
+    <script>
+        class Player {
+            constructor(name, score) {
+                this.name = name;
+                this.score = score;
+            }
+
+            toString() {
+                return `{${this.name} - ${this.score}}`;
+            }
+        }
+
+        function generateArrayOfPlayers() {
+            const players = [];
+            const names = new Set();
+
+            for (let i = 0; i < 10; i++) {
+                let name;
+                do {
+                    name = "Player" + Math.floor(Math.random() * (9999 - 1000 + 1) + 1000);
+                } while (names.has(name));
+
+                names.add(name);
+                const score = Math.floor(Math.random() * (999 - 100 + 1) + 100);
+                players.push(new Player(name, score));
+            }
+            return players;
+        }
+
+        // Generate and display 5 arrays of players
+        const resultsDiv = document.getElementById("results");
+        for (let i = 0; i < 5; i++) {
+            const players = generateArrayOfPlayers();
+            const table = document.createElement("table");
+
+            // Add table header
+            const header = table.createTHead();
+            const headerRow = header.insertRow();
+            headerRow.innerHTML = `<th>Player Name</th><th>Score</th>`;
+
+            // Add table body
+            const tbody = table.createTBody();
+            players.forEach(player => {
+                const row = tbody.insertRow();
+                row.innerHTML = `<td>${player.name}</td><td>${player.score}</td>`;
+            });
+
+            // Append the table
+            const title = document.createElement("h3");
+            title.textContent = `Array ${i + 1}`;
+            resultsDiv.appendChild(title);
+            resultsDiv.appendChild(table);
+        }
+    </script>
+</body>
+</html>
